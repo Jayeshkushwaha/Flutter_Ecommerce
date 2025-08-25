@@ -355,7 +355,7 @@ class _SingleOnboardingScreenState extends State<SingleOnboardingScreen> {
                 vertical: 8,
               ),
               child: Text(
-                _currentPage == 2 ? 'Get Started' : 'Next',
+                'Next',
                 style: GoogleFonts.montserrat(
                   fontSize: 18,
                   fontWeight: FontWeight.w600,
