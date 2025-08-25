@@ -1,11 +1,8 @@
-import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'single_onboarding_screen.dart';
-import 'home_screen.dart';
-import 'screens/sign_in_screen.dart';
-import 'screens/sign_up_screen.dart';
+import 'screens/ecommerce_home_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -47,7 +44,7 @@ class _SplashScreenState extends State<SplashScreen> {
               onComplete: () {
                 Navigator.of(context).pushReplacement(
                   MaterialPageRoute(
-                    builder: (context) => const HomeScreen(),
+                    builder: (context) => const EcommerceHomeScreen(),
                   ),
                 );
               },

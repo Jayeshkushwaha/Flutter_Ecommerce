@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'screens/sign_in_screen.dart';
-import 'home_screen.dart';
+import 'screens/get_started_screen.dart';
 
 class SingleOnboardingScreen extends StatefulWidget {
   final VoidCallback? onComplete;
@@ -30,19 +29,10 @@ class _SingleOnboardingScreenState extends State<SingleOnboardingScreen> {
         curve: Curves.easeInOut,
       );
     } else {
-      // Navigate to sign-in screen on last page
+      // Navigate to get started screen on last page
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
-          builder: (context) => SignInScreen(
-            onSignInSuccess: () {
-              // After successful sign-in, go to home screen
-              Navigator.of(context).pushReplacement(
-                MaterialPageRoute(
-                  builder: (context) => HomeScreen()
-                ),
-              );
-            },
-          ),
+          builder: (context) => const GetStartedScreen(),
         ),
       );
     }
@@ -64,16 +54,7 @@ class _SingleOnboardingScreenState extends State<SingleOnboardingScreen> {
   void _skip() {
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(
-        builder: (context) => SignInScreen(
-          onSignInSuccess: () {
-            // After successful sign-in, go to home screen
-            Navigator.of(context).pushReplacement(
-              MaterialPageRoute(
-                builder: (context) => HomeScreen()
-              ),
-            );
-          },
-        ),
+        builder: (context) => const GetStartedScreen(),
       ),
     );
   }
