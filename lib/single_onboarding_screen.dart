@@ -54,31 +54,33 @@ class _SingleOnboardingScreenState extends State<SingleOnboardingScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFFFFFFF), // #FFFFFF
-      body: Column(
-        children: [
-          // Header with page indicator and skip
-          _buildHeader(),
-          
-          // Main content area with PageView
-          Expanded(
-            child: PageView(
-              controller: _pageController,
-              onPageChanged: (int page) {
-                setState(() {
-                  _currentPage = page;
-                });
-              },
-              children: [
-                _buildPage1(), // Choose Products
-                _buildPage2(), // Make Payment
-                _buildPage3(), // Get Your Order
-              ],
+      body: SafeArea(
+        child: Column(
+          children: [
+            // Header with page indicator and skip
+            _buildHeader(),
+            
+            // Main content area with PageView
+            Expanded(
+              child: PageView(
+                controller: _pageController,
+                onPageChanged: (int page) {
+                  setState(() {
+                    _currentPage = page;
+                  });
+                },
+                children: [
+                  _buildPage1(), // Choose Products
+                  _buildPage2(), // Make Payment
+                  _buildPage3(), // Get Your Order
+                ],
+              ),
             ),
-          ),
-          
-          // Bottom navigation
-          _buildBottomNavigation(),
-        ],
+            
+            // Bottom navigation
+            _buildBottomNavigation(),
+          ],
+        ),
       ),
     );
   }
@@ -87,10 +89,11 @@ class _SingleOnboardingScreenState extends State<SingleOnboardingScreen> {
 
   Widget _buildHeader() {
     return Container(
-      height: 50, // Reduced header height
-      padding: const EdgeInsets.only(left: 17.0, right: 17.0, top: 20.0),
+      height: 100,
+      padding: const EdgeInsets.symmetric(horizontal: 20.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           // Page indicator with individual highlighting
           RichText(
@@ -169,7 +172,7 @@ class _SingleOnboardingScreenState extends State<SingleOnboardingScreen> {
         // Illustration
         Expanded(
           child: Center(
-            child: Container(
+            child: SizedBox(
               width: 300,
               height: 300,
               child: Image.asset(
@@ -217,7 +220,7 @@ class _SingleOnboardingScreenState extends State<SingleOnboardingScreen> {
         // Illustration
         Expanded(
           child: Center(
-            child: Container(
+            child: SizedBox(
               width: 350,
               height: 233.33,
               child: Image.asset(
@@ -265,7 +268,7 @@ class _SingleOnboardingScreenState extends State<SingleOnboardingScreen> {
         // Illustration
         Expanded(
           child: Center(
-            child: Container(
+            child: SizedBox(
               width: 350,
               height: 350,
               child: Image.asset(
@@ -310,80 +313,48 @@ class _SingleOnboardingScreenState extends State<SingleOnboardingScreen> {
     return Container(
       height: 100,
       padding: const EdgeInsets.symmetric(horizontal: 20.0),
-      child: Stack(
-        alignment: Alignment.center,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          // Page indicators - centered
-          Positioned(
-            left: 0,
-            right: 0,
-            child: Center(
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: List.generate(3, (index) {
-                  return Container(
-                    margin: EdgeInsets.only(right: index < 2 ? 10.0 : 0),
-                    child: AnimatedContainer(
-                      duration: const Duration(milliseconds: 300),
-                      width: _currentPage == index ? 40 : 10,
-                      height: 8,
-                      decoration: BoxDecoration(
-                        color: _currentPage == index 
-                            ? const Color(0xFF17223B)
-                            : const Color(0xFF17223B).withValues(alpha: 0.2),
-                        borderRadius: BorderRadius.circular(100),
-                      ),
-                    ),
-                  );
-                }),
-              ),
-            ),
+          // Page indicators - left aligned
+          Row(
+            children: List.generate(3, (index) {
+              return Container(
+                margin: EdgeInsets.only(right: index < 2 ? 10.0 : 0),
+                child: AnimatedContainer(
+                  duration: const Duration(milliseconds: 300),
+                  width: _currentPage == index ? 40 : 10,
+                  height: 8,
+                  decoration: BoxDecoration(
+                    color: _currentPage == index 
+                        ? const Color(0xFF17223B)
+                        : const Color(0xFF17223B).withValues(alpha: 0.2),
+                    borderRadius: BorderRadius.circular(100),
+                  ),
+                ),
+              );
+            }),
           ),
           
-          // Next/Get Started button - positioned on the right
-          Positioned(
-            right: 0,
-            child: GestureDetector(
-              onTap: _nextPage,
-              child: Container(
-                padding: EdgeInsets.symmetric(
-                  horizontal: _currentPage == 2 ? 20 : 18,
-                  vertical: 8,
-                ),
-                child: Text(
-                  _currentPage == 2 ? 'Get Started' : 'Next',
-                  style: GoogleFonts.montserrat(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600,
-                    color: const Color(0xFFF83758),
-                  ),
+          // Next/Get Started button - right aligned
+          GestureDetector(
+            onTap: _nextPage,
+            child: Container(
+              padding: EdgeInsets.symmetric(
+                horizontal: _currentPage == 2 ? 20 : 18,
+                vertical: 8,
+              ),
+              child: Text(
+                _currentPage == 2 ? 'Get Started' : 'Next',
+                style: GoogleFonts.montserrat(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
+                  color: const Color(0xFFF83758),
                 ),
               ),
             ),
           ),
-          
-          // Prev button - positioned on the left (only show on page 2 and 3)
-          if (_currentPage > 0)
-            Positioned(
-              left: 0,
-              child: GestureDetector(
-                onTap: _previousPage,
-                child: Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 25,
-                    vertical: 12,
-                  ),
-                  child: Text(
-                    'Prev',
-                    style: GoogleFonts.montserrat(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w600,
-                      color: const Color(0xFFC4C4C4),
-                    ),
-                  ),
-                ),
-              ),
-            ),
         ],
       ),
     );
